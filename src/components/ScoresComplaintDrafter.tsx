@@ -81,6 +81,7 @@ export const ScoresComplaintDrafter: React.FC<ScoresComplaintDrafterProps> = ({
   });
 
   const [showLetterheadModal, setShowLetterheadModal] = useState<boolean>(false);
+  const [pdfPrintPreviewMode, setPdfPrintPreviewMode] = useState<boolean>(false);
   const [archiveSuccessToast, setArchiveSuccessToast] = useState<boolean>(false);
   const [lastSavedTime, setLastSavedTime] = useState<string>(() => {
     if (typeof window !== 'undefined') {
@@ -500,9 +501,14 @@ Reference ID: NYAYA-SEBI-${Date.now().toString().slice(-6)}
   };
 
   const handlePrintReport = () => {
+    setPdfPrintPreviewMode(true);
     setShowLetterheadModal(true);
     setTimeout(() => {
-      window.print();
+      try {
+        window.print();
+      } catch (err) {
+        console.warn('Print dialog note:', err);
+      }
     }, 150);
   };
 
@@ -901,7 +907,7 @@ Reference ID: NYAYA-SEBI-${Date.now().toString().slice(-6)}
                   />
                 </div>
 
-                <div className="flex items-center gap-3 pt-2">
+                <div className="flex flex-wrap items-center justify-between gap-3 pt-2">
                   <button
                     onClick={() => setStep(2)}
                     className="flex items-center gap-1.5 rounded-xl border border-slate-700 px-3.5 py-2 text-xs font-semibold text-slate-300 hover:bg-slate-800"
@@ -909,10 +915,18 @@ Reference ID: NYAYA-SEBI-${Date.now().toString().slice(-6)}
                     <ArrowLeft className="h-4 w-4" />
                     <span>Back</span>
                   </button>
-                  <div className="flex-1 text-right">
+                  <div className="flex items-center gap-2.5">
                     <span className="text-xs font-medium text-emerald-400">
                       ✓ Draft Ready to File!
                     </span>
+                    <button
+                      type="button"
+                      onClick={handlePrintReport}
+                      className="flex items-center gap-1.5 rounded-xl bg-emerald-500 px-3.5 py-2 text-xs font-bold text-slate-950 hover:bg-emerald-400 transition-colors shadow-sm"
+                    >
+                      <Printer className="h-3.5 w-3.5" />
+                      <span>Print Report</span>
+                    </button>
                   </div>
                 </div>
               </div>
@@ -966,6 +980,19 @@ Reference ID: NYAYA-SEBI-${Date.now().toString().slice(-6)}
                   </button>
 
                   <button
+                    onClick={() => setPdfPrintPreviewMode((prev) => !prev)}
+                    className={`flex items-center gap-1.5 rounded-lg border px-2.5 py-1 text-xs font-semibold transition-colors shadow-sm ${
+                      pdfPrintPreviewMode
+                        ? 'bg-white text-slate-950 border-white'
+                        : 'bg-emerald-500/20 border-emerald-500/50 text-emerald-300 hover:bg-emerald-500/30'
+                    }`}
+                    title="Toggle clean PDF-ready white paper layout inline"
+                  >
+                    <FileText className="h-3.5 w-3.5" />
+                    <span>{pdfPrintPreviewMode ? 'Standard Text View' : 'PDF Print Layout'}</span>
+                  </button>
+
+                  <button
                     onClick={() => setShowLetterheadModal(true)}
                     className="flex items-center gap-1.5 rounded-lg bg-emerald-500/20 border border-emerald-500/50 px-2.5 py-1 text-xs font-semibold text-emerald-300 hover:bg-emerald-500/30 transition-colors shadow-sm"
                     title="Preview Official Government Letterhead Dossier"
@@ -1003,10 +1030,71 @@ Reference ID: NYAYA-SEBI-${Date.now().toString().slice(-6)}
                 </div>
               </div>
 
-              {/* Legal Text Area */}
-              <div className="mt-4 max-h-[350px] overflow-y-auto rounded-xl border border-slate-800 bg-[#060a0f] p-4 text-xs font-mono text-slate-300 leading-relaxed whitespace-pre-wrap selection:bg-emerald-500/30">
-                {generateComplaintText()}
-              </div>
+              {/* Legal Text Area OR Clean PDF-Ready Print Format View */}
+              {pdfPrintPreviewMode ? (
+                <div className="mt-4 max-h-[420px] overflow-y-auto rounded-xl border-2 border-slate-300 bg-white p-5 text-slate-900 shadow-inner font-serif">
+                  <div className="flex items-center justify-between border-b-2 border-slate-900 pb-2.5 font-sans">
+                    <div>
+                      <div className="text-[10px] font-bold uppercase tracking-widest text-emerald-800">
+                        PDF-Ready Print Format • SEBI SCORES 2.0 / 1930 Dossier
+                      </div>
+                      <div className="text-sm font-extrabold uppercase text-slate-950">
+                        Securities and Exchange Board of India (SEBI)
+                      </div>
+                    </div>
+                    <div className="text-right text-[11px]">
+                      <div className="font-mono font-bold text-slate-950">{dossierId}</div>
+                      <div className="text-slate-600">{formData.dateOfIncident}</div>
+                    </div>
+                  </div>
+
+                  <div className="mt-3 grid grid-cols-2 gap-2 rounded-lg border border-slate-300 bg-slate-50 p-3 font-sans text-xs">
+                    <div>
+                      <span className="text-slate-500">Jurisdiction:</span>{' '}
+                      <strong className="text-slate-900">{formData.victimCity}, {formData.victimState}</strong>
+                    </div>
+                    <div>
+                      <span className="text-slate-500">Disputed Loss:</span>{' '}
+                      <strong className="font-mono text-rose-700">₹{Number(formData.amountLost || 0).toLocaleString('en-IN')}</strong>
+                    </div>
+                    <div>
+                      <span className="text-slate-500">UTR / Ref:</span>{' '}
+                      <strong className="font-mono text-slate-900">{formData.utrOrTransactionId || 'N/A'}</strong>
+                    </div>
+                    <div>
+                      <span className="text-slate-500">Accused Handle:</span>{' '}
+                      <strong className="text-slate-900">{formData.scammerNameOrNumber}</strong>
+                    </div>
+                  </div>
+
+                  <div className="mt-3 text-xs leading-relaxed text-slate-900">
+                    <div className="font-sans font-bold uppercase text-[11px] text-slate-800">
+                      Statement of Grievance ({formData.category}):
+                    </div>
+                    <p className="mt-1">{formData.whatHappened}</p>
+                  </div>
+
+                  <div className="mt-3 rounded border border-amber-300 bg-amber-50/80 p-2.5 font-sans text-[11px] text-slate-900">
+                    <strong>शिकायत सारांश (हिन्दी):</strong> प्रार्थी के साथ {formData.platform} पर धोखाधड़ी की गई है। कुल विवादित राशि ₹{Number(formData.amountLost || 0).toLocaleString('en-IN')} (UTR: {formData.utrOrTransactionId || 'संलग्न'}) है।
+                  </div>
+
+                  <div className="mt-3 flex items-center justify-between border-t border-slate-300 pt-2.5 font-sans text-[11px] text-slate-600">
+                    <span>Evidence: {formData.evidenceType}</span>
+                    <button
+                      type="button"
+                      onClick={() => window.print()}
+                      className="inline-flex items-center gap-1 rounded bg-slate-900 px-2.5 py-1 text-[11px] font-bold text-white hover:bg-slate-800"
+                    >
+                      <Printer className="h-3 w-3" />
+                      <span>Send to Printer / Save PDF</span>
+                    </button>
+                  </div>
+                </div>
+              ) : (
+                <div className="mt-4 max-h-[350px] overflow-y-auto rounded-xl border border-slate-800 bg-[#060a0f] p-4 text-xs font-mono text-slate-300 leading-relaxed whitespace-pre-wrap selection:bg-emerald-500/30">
+                  {generateComplaintText()}
+                </div>
+              )}
 
               {/* Social Media Sharing & Awareness Bar */}
               <div className="mt-4 rounded-xl border border-slate-700/60 bg-[#070e16] p-3">

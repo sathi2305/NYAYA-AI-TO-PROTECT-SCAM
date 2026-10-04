@@ -2,6 +2,7 @@ import React from 'react';
 import { ArrowRight, FileText, PhoneCall } from 'lucide-react';
 import { LanguageCode } from '../types';
 import { getStrings } from '../utils/i18n';
+import heroBharatFamilyImg from '../assets/images/hero_bharat_family_protection_1790929296839.jpg';
 
 interface HeroProps {
   currentLanguage: LanguageCode;
@@ -91,9 +92,8 @@ export const Hero: React.FC<HeroProps> = ({
             <div className="relative overflow-hidden rounded-2xl border border-slate-800 bg-[#0d1620] p-3 shadow-2xl">
               <div className="relative aspect-[16/10] overflow-hidden rounded-xl bg-slate-900">
                 <img
-                  src="/src/assets/images/hero_bharat_family_protection_1790929296839.jpg"
+                  src={heroBharatFamilyImg}
                   alt="Three generations of an Indian family looking safely at a smartphone protected by NYAYA"
-                  referrerPolicy="no-referrer"
                   className="h-full w-full object-cover transition-transform duration-500 hover:scale-105"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-[#080e14] via-[#080e14]/40 to-transparent" />

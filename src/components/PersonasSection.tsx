@@ -3,6 +3,9 @@ import { Quote, MapPin } from 'lucide-react';
 import { PERSONAS } from '../data/mockData';
 import { LanguageCode } from '../types';
 import { getStrings } from '../utils/i18n';
+import personaRameshImg from '../assets/images/persona_ramesh_teacher_1790929316274.jpg';
+import personaPriyaImg from '../assets/images/persona_priya_entrepreneur_1790929329007.jpg';
+import personaSureshImg from '../assets/images/persona_suresh_elder_1790929342253.jpg';
 
 interface PersonasSectionProps {
   currentLanguage?: LanguageCode;
@@ -11,9 +14,9 @@ interface PersonasSectionProps {
 export const PersonasSection: React.FC<PersonasSectionProps> = ({ currentLanguage = 'hi' }) => {
   const s = getStrings(currentLanguage);
   const personaImages: Record<string, string> = {
-    persona_ramesh_teacher: '/src/assets/images/persona_ramesh_teacher_1790929316274.jpg',
-    persona_priya_entrepreneur: '/src/assets/images/persona_priya_entrepreneur_1790929329007.jpg',
-    persona_suresh_elder: '/src/assets/images/persona_suresh_elder_1790929342253.jpg',
+    persona_ramesh_teacher: personaRameshImg,
+    persona_priya_entrepreneur: personaPriyaImg,
+    persona_suresh_elder: personaSureshImg,
   };
 
   return (
@@ -48,7 +51,6 @@ export const PersonasSection: React.FC<PersonasSectionProps> = ({ currentLanguag
                   <img
                     src={personaImages[persona.imageKey]}
                     alt={persona.name}
-                    referrerPolicy="no-referrer"
                     className="h-full w-full object-cover transition-transform duration-500 hover:scale-105"
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-[#0c1520] via-[#0c1520]/30 to-transparent" />
