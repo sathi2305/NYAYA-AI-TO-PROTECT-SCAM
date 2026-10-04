@@ -1,0 +1,48 @@
+{
+  "version": "1.0.0",
+  "updatedAt": "2026-10-04T00:00:00Z",
+  "emergencyHelplines": {
+    "cyberCrime": "1930",
+    "sebiTollFree": "1800-266-7575",
+    "portal": "https://cybercrime.gov.in",
+    "scoresPortal": "https://scores.sebi.gov.in"
+  },
+  "criticalWarnings": [
+    {
+      "id": "offline-warn-1",
+      "title": "Fake NSDL / CDSL Bonus Share Stamp Duty PDF",
+      "severity": "RED",
+      "riskScore": 96,
+      "city": "Nashik & Pan-India",
+      "summary": "Depositories NEVER demand advance stamp duty or clearing fees via WhatsApp PDFs or private UPI links (watch for typosquatting like nsdI-portal.org.in).",
+      "sebiRef": "NSDL/POLICY/2024/0041"
+    },
+    {
+      "id": "offline-warn-2",
+      "title": "Deepfake Finfluencer Reels & Telegram VIP Pump Groups",
+      "severity": "RED",
+      "riskScore": 92,
+      "city": "Lucknow & Indore",
+      "summary": "SEBI strictly prohibits guaranteed returns (e.g., 'Double in 5 Days'). Over 90% of VIP Telegram groups orchestrate pump-and-dump traps on illiquid penny stocks.",
+      "sebiRef": "SEBI/HO/MIRSD/MIRSD-PoD-1/P/CIR/2023/158"
+    },
+    {
+      "id": "offline-warn-3",
+      "title": "Demat OTP Harvesting via Fake Dividend Links",
+      "severity": "RED",
+      "riskScore": 98,
+      "city": "Rajkot & Coimbatore",
+      "summary": "Dividends are credited automatically to your linked bank account via ECS. Never enter your PAN or Demat OTP on third-party links to 'claim' dividends.",
+      "sebiRef": "Cyber Crime Alert 2024-CC-882"
+    },
+    {
+      "id": "offline-warn-4",
+      "title": "Digital Arrest & Fake SEBI/CBI Video Call Extortion",
+      "severity": "RED",
+      "riskScore": 99,
+      "city": "National Alert",
+      "summary": "Police, CBI, Customs, and SEBI officers NEVER conduct 'Digital Arrests' over WhatsApp/Skype video calls or ask for 'verification transfers' to RBI escrow accounts.",
+      "sebiRef": "BNS Sec 318(4) & IT Act Sec 66D"
+    }
+  ]
+}

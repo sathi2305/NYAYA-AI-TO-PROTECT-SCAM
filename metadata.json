@@ -1,0 +1,6 @@
+{
+  "name": "NYAYA — Justice For Every Investor",
+  "description": "Bharat-first investor fraud protection engine and voice-native Suraksha Kavach. Protecting 41Cr Indian families from financial scams on WhatsApp.",
+  "requestFramePermissions": ["web-share", "microphone"],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
